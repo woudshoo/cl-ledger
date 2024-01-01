@@ -60,17 +60,21 @@
 
     (when (and binder (binderp binder))
       (setf *last-binder* binder)
-
-      (loop for journal-cell on (binder-journals binder) do
-	   (when (or (null (journal-read-date (car journal-cell)))
-		     (> (file-write-date (journal-source (car journal-cell)))
-			(journal-read-date (car journal-cell))))
-	     (setf (car journal-cell)
-		   (read-journal (journal-source
-				  (car journal-cell)) binder))
-	     (assert (car journal-cell))))
-
+      (binder-refresh-journals-if-needed binder)
       (values binder args))))
+
+(defun binder-refresh-journals-if-needed (binder)
+  "Update the content of binder for the journal files
+whose timestamp is changed."
+  (loop for journal-cell on (binder-journals binder) do
+    (when (or (null (journal-read-date (car journal-cell)))
+	      (> (file-write-date (journal-source (car journal-cell)))
+		 (journal-read-date (car journal-cell))))
+      (setf (car journal-cell)
+	    (read-journal (journal-source
+			   (car journal-cell))
+			  binder))
+      (assert (car journal-cell)))))
 
 (defun binder-time-range (&optional (binder *last-binder*))
   (with-timestamp-range (earliest latest)

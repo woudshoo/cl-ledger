@@ -134,7 +134,8 @@
 
 	   find-current-entity
 
-           process-command-line))
+           process-command-line
+	   binder-refresh-journals-if-needed))
 
 (in-package :ledger)
 
