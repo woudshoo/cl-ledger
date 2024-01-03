@@ -66,7 +66,7 @@
    (name	   :accessor account-name	   :initarg :name
 		   :type string)
    (fullname	   :accessor account-fullname	   :initarg :fullname
-		   :type string)
+		   :initform "" :type string)
    (data           :accessor account-data          :initarg :data
 		   :initform nil)))
 

@@ -157,7 +157,7 @@
 	((null arg))
       (if (keywordp (first arg))
 	  (progn
-	    (if (first (rest arg))
+	    (when (first (rest arg))
 		(if-let ((entry (assoc (first arg) *predicate-keywords*)))
 		  (unless (typep (first (rest arg)) (cadr entry))
 		    (error "Argument of invalid type ~S passed to ~
